@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investors List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Investors List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Firm Id</th>
+                <th>Firm Name</th>
+                <th>Firm Type</th>
+                <th>Date Added</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if investors %}
+                {% for investor in investors %}
+                <tr class="clickable-row" data-href="{% url 'investor-detail' investor.firm_id %}">
+                        <td>{{ investor.firm_id }}</td>
+                        <td>{{ investor.firm_name }}</td>
+                        <td>{{ investor.firm_type }}</td>
+                        <td>{{ investor.date_added }}</td>
+                        <td>{{ investor.address }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5">No investors found.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.clickable-row');
+            rows.forEach(row => {
+                row.addEventListener('click', function() {
+                    window.location.href = row.getAttribute('data-href');
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
