@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'preqin_investors_spa.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "preqin_investors_spa.settings")
 
 application = get_wsgi_application()
