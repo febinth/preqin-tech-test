@@ -3,7 +3,8 @@ from django.test import TestCase, Client
 from django.urls import reverse
 import requests_mock
 from investors.tests.resources import constants
-from investors import views, settings
+from investors import views
+from investors.tests import settings_test
 
 
 class InvestorViewsTestCase(TestCase):
@@ -13,7 +14,8 @@ class InvestorViewsTestCase(TestCase):
 
     @requests_mock.Mocker()
     def test_fetch_investor_data_success(self, mock_request):
-        mock_url = settings.PREQIN_INVESTORS_API_URL
+        '''This test checks for successful retreival of investor data'''
+        mock_url = settings_test.PREQIN_INVESTORS_API_URL
         mock_data = [
             {
                 "firm_id": 1,
@@ -41,6 +43,7 @@ class InvestorViewsTestCase(TestCase):
         self.assertEqual(response.context["investor_data"], mock_data)
 
     def test_get_investor_details(self):
+        '''This test checks for successful loading of investor details'''
         investor_id = 1
         response = self.client.get(reverse("investor_details", args=[investor_id]))
 
@@ -50,7 +53,8 @@ class InvestorViewsTestCase(TestCase):
 
     @requests_mock.Mocker()
     def test_fetch_investor_data_failure(self, mock_request):
-        mock_url = settings.PREQIN_INVESTORS_API_URL
+        '''This test checks for the failure scenario in investors data retreival'''
+        mock_url = settings_test.PREQIN_INVESTORS_API_URL
         mock_request.get(mock_url, status_code=500)
 
         response = self.client.get(reverse(views.get_investors))

@@ -1,23 +1,23 @@
 # test_views.py
+import json
 from django.test import TestCase, Client
 from django.urls import reverse
 import requests_mock
-import json
 from investors.tests.resources import constants
-from investors.tests import test_settings
+from investors.tests import settings_test
 from investors import views
 
 
 class InvestorDetailsTestCase(TestCase):
 
     def setUp(self):
-        views.settings = test_settings
+        views.settings = settings_test
         self.client = Client()
         self.asset_classes_mock_data = {constants.ASSET_CLASSES: ["RE", "PE"]}
 
     def test_get_asset_classes(self):
-        # Mocking open and json.load
-        file_path = test_settings.ASSET_CLASSES_JSON_FILEPATH
+        '''This test validates successful loading of the asset classes from json'''
+        file_path = settings_test.ASSET_CLASSES_JSON_FILEPATH
         with open(file_path, "w") as f:
             json.dump(self.asset_classes_mock_data, f)
         asset_classes = views.get_asset_classes()
@@ -27,9 +27,10 @@ class InvestorDetailsTestCase(TestCase):
 
     @requests_mock.Mocker()
     def test_fetch_commitments_success(self, mock_request):
+        '''This test validates the success scenario of retreiving commitment data'''
         asset_class = "RE"
         investor_id = 1
-        mock_url = f"{test_settings.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
+        mock_url = f"{settings_test.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
         mock_data = {"commitments": "sample commitments data"}
         mock_request.get(
             mock_url, json=mock_data, status_code=constants.STATUS_CODE_200
@@ -40,9 +41,10 @@ class InvestorDetailsTestCase(TestCase):
 
     @requests_mock.Mocker()
     def test_fetch_commitments_failure(self, mock_request):
+        '''This test validates the failure scenario of retreiving commitment data'''
         asset_class = "Real Estate"
         investor_id = 1
-        mock_url = f"{test_settings.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
+        mock_url = f"{settings_test.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
         mock_request.get(mock_url, status_code=500)
 
         commitments = views.fetch_commitments(asset_class, investor_id)
@@ -50,16 +52,17 @@ class InvestorDetailsTestCase(TestCase):
 
     @requests_mock.Mocker()
     def test_get_commitments(self, mock_request):
+        '''This test validates the rendering of commitment data'''
         asset_classes = self.asset_classes_mock_data[constants.ASSET_CLASSES]
         commitments_mock_data = {"commitments": "sample commitments data"}
         asset_class = "RE"
         investor_id = 1
 
-        file_path = test_settings.ASSET_CLASSES_JSON_FILEPATH
+        file_path = settings_test.ASSET_CLASSES_JSON_FILEPATH
         with open(file_path, "w") as f:
             json.dump(self.asset_classes_mock_data, f)
 
-        mock_url = f"{test_settings.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
+        mock_url = f"{settings_test.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
         mock_request.get(
             mock_url, json=commitments_mock_data, status_code=constants.STATUS_CODE_200
         )
