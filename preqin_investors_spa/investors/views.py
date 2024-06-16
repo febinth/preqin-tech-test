@@ -15,10 +15,10 @@ def fetch_investor_data():
         return []
     
 def get_asset_classes():
-    file_path = "investors/resources/asset_classes.json"
+    file_path = constants.ASSET_CLASSES_JSON_FILEPATH
     file = open(file_path, 'r')
     data = json.load(file) 
-    return data.get('asset_classes')
+    return data.get(constants.ASSET_CLASSES)
 
 def get_investors(request):
     investor_data=fetch_investor_data()
