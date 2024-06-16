@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investor Details</title>
+    <style>
+        select {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     {% if investor_id %}
@@ -11,5 +31,14 @@
     {% else %}
         <p>No details available for this investor.</p>
     {% endif %}
+
+    <h2>Select an Asset Class</h2>
+    <label for="asset-classes">Choose an option:</label>
+    <select id="asset-classes" name="asset-classes"> 
+        <option value="" disabled selected>Select an asset class</option>
+        {% for asset_class in asset_classes %}
+            <option value="{{ asset_class }}">{{ asset_class }}</option>
+        {% endfor %}
+    </select>
 </body>
 </html>

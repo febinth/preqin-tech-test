@@ -25,4 +25,5 @@ def get_investors(request):
     return render(request, constants.TEMPLATE_INVESTORS, {'investor_data':investor_data})    
 
 def get_investor_details(request, investor_id):
-    return render(request, constants.TEMPLATE_INVESTOR_DETAILS, {'investor_id':investor_id})
+    asset_classes = get_asset_classes()
+    return render(request, constants.TEMPLATE_INVESTOR_DETAILS, {'investor_id':investor_id, 'asset_classes':asset_classes})
