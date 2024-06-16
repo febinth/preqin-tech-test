@@ -35,9 +35,9 @@
             </tr>
         </thead>
         <tbody>
-            {% if investors %}
-                {% for investor in investors %}
-                <tr class="clickable-row" data-href="{% url 'investor-detail' investor.firm_id %}">
+            {% if investor_data %}
+                {% for investor in investor_data %}
+                <tr>
                         <td>{{ investor.firm_id }}</td>
                         <td>{{ investor.firm_name }}</td>
                         <td>{{ investor.firm_type }}</td>
@@ -52,17 +52,6 @@
             {% endif %}
         </tbody>
     </table>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const rows = document.querySelectorAll('.clickable-row');
-            rows.forEach(row => {
-                row.addEventListener('click', function() {
-                    window.location.href = row.getAttribute('data-href');
-                });
-            });
-        });
-    </script>
     
 </body>
 </html>
