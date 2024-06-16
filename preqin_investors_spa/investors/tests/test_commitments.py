@@ -4,7 +4,7 @@ from django.urls import reverse
 import requests_mock
 import json
 from investors.tests.resources import constants
-from investors import views
+from investors import views, settings
 
 class InvestorDetailsTestCase(TestCase):
 
@@ -27,7 +27,7 @@ class InvestorDetailsTestCase(TestCase):
     def test_fetch_commitments_success(self, mock_request):
         asset_class = 'RE'
         investor_id = 1
-        mock_url = f"{constants.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
+        mock_url = f"{settings.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
         mock_data = {'commitments': 'sample commitments data'}
         mock_request.get(mock_url, json=mock_data, status_code=constants.STATUS_CODE_200)
 
@@ -38,7 +38,7 @@ class InvestorDetailsTestCase(TestCase):
     def test_fetch_commitments_failure(self, mock_request):
         asset_class = 'Real Estate'
         investor_id = 1
-        mock_url = f"{constants.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
+        mock_url = f"{settings.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
         mock_request.get(mock_url, status_code=500)
 
         commitments = views.fetch_commitments(asset_class, investor_id)
@@ -55,7 +55,7 @@ class InvestorDetailsTestCase(TestCase):
         with open(file_path, 'w') as f:
             json.dump(self.asset_classes_mock_data, f)
 
-        mock_url = f"{constants.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
+        mock_url = f"{settings.PREQIN_COMMITMENTS_API_URL}/{asset_class.lower()}/{investor_id}"
         mock_request.get(mock_url, json=commitments_mock_data, status_code=constants.STATUS_CODE_200)
 
         response = self.client.get(reverse(views.get_commitments, args=[asset_class, investor_id]))
