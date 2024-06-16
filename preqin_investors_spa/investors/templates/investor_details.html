@@ -37,8 +37,51 @@
     <select id="asset-classes" name="asset-classes"> 
         <option value="" disabled selected>Select an asset class</option>
         {% for asset_class in asset_classes %}
-            <option value="{{ asset_class }}">{{ asset_class }}</option>
+            <option value="{{ asset_class }}" data-href="{% url 'commitment_details' asset_class investor_id %}">{{ asset_class }}</option>
         {% endfor %}
     </select>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.getElementById('asset-classes');
+            dropdown.addEventListener('change', function() {
+                const selectedOption = dropdown.options[dropdown.selectedIndex];
+                const href = selectedOption.getAttribute('data-href');
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+        });
+    </script>
+
+    {% if commitments %}
+        <h2>Commitments</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Firm ID</th>
+                    <th>Asset Class</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commitment in commitments %}
+                <tr>
+                    <td>{{ commitment.id }}</td>
+                    <td>{{ commitment.firm_id }}</td>
+                    <td>{{ commitment.asset_class }}</td>
+                    <td>{{ commitment.amount }}</td>
+                    <td>{{ commitment.currency }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    {% elif asset_class %}
+        <tr>
+            <td colspan="5">No commitments found.</td>
+        </tr>
+    {% endif %}
+    </table>
 </body>
 </html>
