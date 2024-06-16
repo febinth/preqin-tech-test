@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import requests
+import json
 from investors.resources import constants
 
 # Create your views here.
@@ -12,6 +13,12 @@ def fetch_investor_data():
         return response.json()
     else:
         return []
+    
+def get_asset_classes():
+    file_path = "investors/resources/asset_classes.json"
+    file = open(file_path, 'r')
+    data = json.load(file) 
+    return data.get('asset_classes')
 
 def get_investors(request):
     investor_data=fetch_investor_data()
