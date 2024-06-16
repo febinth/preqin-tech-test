@@ -1,5 +1,4 @@
 STATUS_CODE_200=200
 TEMPLATE_INVESTORS="investors.html"
 TEMPLATE_INVESTOR_DETAILS="investor_details.html"
-ASSET_CLASSES_JSON_FILEPATH="investors/tests/resources/asset_classes_test.json"
 ASSET_CLASSES="asset_classes"

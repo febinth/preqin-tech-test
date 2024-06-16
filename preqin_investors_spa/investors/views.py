@@ -24,7 +24,6 @@ def get_asset_classes():
 def fetch_commitments(asset_class, investor_id):
     asset_class=asset_class.lower()
     url = f"{settings.PREQIN_COMMITMENTS_API_URL}/{asset_class}/{investor_id}"
-    print(url)
     response = requests.get(url)
     if response.status_code == constants.STATUS_CODE_200:
         return response.json()
