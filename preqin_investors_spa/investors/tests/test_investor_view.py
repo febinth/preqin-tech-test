@@ -2,7 +2,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 import requests_mock
-from investors.resources import constants
+from investors.tests.resources import constants
 from investors import views
 
 class InvestorViewsTestCase(TestCase):
