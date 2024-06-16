@@ -20,6 +20,15 @@ def get_asset_classes():
     data = json.load(file) 
     return data.get(constants.ASSET_CLASSES)
 
+def fetch_commitments(asset_class, investor_id):
+    url = constants.PREQIN_COMMITMENTS_API_URL
+    url += ""+asset_class+"/"+investor_id
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return []    
+
 def get_investors(request):
     investor_data=fetch_investor_data()
     return render(request, constants.TEMPLATE_INVESTORS, {'investor_data':investor_data})    
@@ -27,3 +36,8 @@ def get_investors(request):
 def get_investor_details(request, investor_id):
     asset_classes = get_asset_classes()
     return render(request, constants.TEMPLATE_INVESTOR_DETAILS, {'investor_id':investor_id, 'asset_classes':asset_classes})
+
+def get_commitments(request, asset_class, investor_id):
+    asset_classes = get_asset_classes()
+    commitment_data = fetch_commitments(asset_class, investor_id)
+    return render(request, constants.TEMPLATE_INVESTOR_DETAILS, {'investor_id':investor_id, 'asset_classes':asset_classes, 'commitments':fetch_commitments(asset_class, investor_id)})
