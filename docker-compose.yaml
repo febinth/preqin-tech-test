@@ -1,0 +1,10 @@
+services:
+  preqin-api:
+    build: ./preqin-technical-test/
+    ports: 
+      - 8000:8000
+  
+  django-app:
+    build: ./preqin_investors_spa/
+    ports: 
+      - 8080:8080

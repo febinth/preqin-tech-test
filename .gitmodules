@@ -1,0 +1,3 @@
+[submodule "preqin-technical-test"]
+	path = preqin-technical-test
+	url = https://github.com/JayGadi/preqin-technical-test
