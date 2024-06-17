@@ -8,3 +8,4 @@ services:
     build: ./preqin_investors_spa/
     ports: 
       - 8080:8080
+    command: sh -c "chmod +x /app/entrypoint.sh && /app/entrypoint.sh python manage.py runserver 0.0.0.0:8080"
