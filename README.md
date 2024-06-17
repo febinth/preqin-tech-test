@@ -13,9 +13,12 @@ The preqin-api is added as a git submodule to this repo. Both apps can be manage
 
 ### Running the App
 
-1. Clone the repository:
+1. Clone the repository along with the preqin-api submodule:
    ```sh
    git clone --recurse-submodules https://github.com/febinth/preqin-tech-test
+   ```
+   If the preqin-api submodule hasn't been cloned, run the below commands.
+   ```sh
    cd preqin-tech-test
    git submodule update --init --recursive
 2. Use docker compose to bring up both the apps.
